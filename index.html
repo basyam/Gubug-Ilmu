@@ -14,7 +14,7 @@
         <div id="ui-overlay">
             <!-- Loading Screen -->
             <div id="loadingScreen" class="loading-screen">
-                <div>🎓 Gubung Ilmu 3D</div>
+                <div>🎓 Gubug Ilmu 3D</div>
                 <div>Memuat ruang kelas virtual...</div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
@@ -35,9 +35,11 @@
                     <div >
                         <button onclick="toggleMusic()"  class="menu-btn-music" id="musicBtn">Play Music</button>
                     </div>
-                <label for="volumeSlider">Volume: </label>
-                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" oninput="changeVolume()">
-                <span id="volumeDisplay">50%</span>
+                    <div class="volume">
+                        <label for="volumeSlider" >Volume: </label>
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" oninput="changeVolume()">
+                        <span id="volumeDisplay">50%</span>
+                    </div>
                 </div>
             </div>
 
