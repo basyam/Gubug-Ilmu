@@ -25,12 +25,13 @@
             <div id="mainMenu" class="menu-overlay hidden">
                 <h1>🎓 Gubug Ilmu 3D</h1>
                 <p style="margin-bottom: 30px;">Selamat Datang di ruang kelas virtual Multimedia</p>
-                <button class="menu-btn" onclick="startGame()">Masuk ke Ruang Kelas</button>
-                <button class="menu-btn" onclick="showInstructions()">Cara Bermain</button>
+                <div class="top-btn">
+                    <button class="menu-btn" onclick="startGame()">Masuk ke Ruang Kelas</button>
+                    <button class="menu-btn" onclick="showInstructions()">Cara Bermain</button>
+                </div>
                 <audio id="bgMusic" loop>
                 <source src="music/Zachz Winner - lover online [NCS Release].mp3" type="audio/mpeg">
                 </audio>
-
                 <div class="music-controls">
                     <div >
                         <button onclick="toggleMusic()"  class="menu-btn-music" id="musicBtn">Play Music</button>
