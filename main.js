@@ -374,394 +374,13 @@ function createSimple3DText(text, x, y, z, color = 0xFFFFFF) {
         scene.add(letter);
     }
 }
-function createLoadingTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-    
-    // Background hitam
-    ctx.fillStyle = '#1a1a1a';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Loading spinner di tengah
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = 40;
-    
-    // Outer circle (background)
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-    ctx.strokeStyle = '#333';
-    ctx.lineWidth = 6;
-    ctx.stroke();
-    
-    // Loading arc (akan dianimasi)
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, -Math.PI/2, Math.PI/2);
-    ctx.strokeStyle = '#667eea';
-    ctx.lineWidth = 6;
-    ctx.lineCap = 'round';
-    ctx.stroke();
-    
-    // Loading text
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 24px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('LOADING...', centerX, centerY + 80);
-    
-    // Loading dots
-    ctx.font = '20px Arial';
-    ctx.fillText('●●●', centerX, centerY + 110);
-    
-    return new THREE.CanvasTexture(canvas);
-}
-
-// Buat animated loading texture
-function createAnimatedLoadingTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-    
-    let animationFrame = 0;
-    const texture = new THREE.CanvasTexture(canvas);
-    
-    function animateLoading() {
-        // Clear canvas
-        ctx.fillStyle = '#1a1a1a';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const radius = 40;
-        
-        // Background circle
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.strokeStyle = '#333';
-        ctx.lineWidth = 6;
-        ctx.stroke();
-        
-        // Animated loading arc
-        const progress = (animationFrame % 120) / 120;
-        const startAngle = -Math.PI/2;
-        const endAngle = startAngle + (2 * Math.PI * progress);
-        
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-        ctx.strokeStyle = '#667eea';
-        ctx.lineWidth = 6;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-        
-        // Loading text dengan pulse effect
-        const alpha = 0.5 + 0.5 * Math.sin(animationFrame * 0.1);
-        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-        ctx.font = 'bold 24px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('LOADING', centerX, centerY + 80);
-        
-        // Animated dots
-        let dots = '';
-        const dotCount = Math.floor(animationFrame / 30) % 4;
-        for (let i = 0; i < dotCount; i++) {
-            dots += '●';
-        }
-        ctx.font = '20px Arial';
-        ctx.fillStyle = '#667eea';
-        ctx.fillText(dots, centerX, centerY + 110);
-        
-        // Update texture
-        texture.needsUpdate = true;
-        animationFrame++;
-        
-        requestAnimationFrame(animateLoading);
-    }
-    
-    animateLoading();
-    return texture;
-}
-
-// Buat PDF loading texture
-function createPDFLoadingTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-    
-    // Background
-    ctx.fillStyle = '#f0f0f0';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // PDF Icon outline
-    const iconX = canvas.width / 2 - 40;
-    const iconY = canvas.height / 2 - 60;
-    
-    ctx.strokeStyle = '#ccc';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(iconX, iconY, 80, 100);
-    
-    // PDF text
-    ctx.fillStyle = '#666';
-    ctx.font = 'bold 14px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('PDF', canvas.width / 2, iconY + 55);
-    
-    // Loading spinner
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2 + 80;
-    const radius = 20;
-    
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, -Math.PI/2, Math.PI/2);
-    ctx.strokeStyle = '#667eea';
-    ctx.lineWidth = 4;
-    ctx.lineCap = 'round';
-    ctx.stroke();
-    
-    ctx.fillStyle = '#333';
-    ctx.font = '16px Arial';
-    ctx.fillText('Memuat Dokumen...', centerX, centerY + 40);
-    
-    return new THREE.CanvasTexture(canvas);
-}
-
-// ===== MODIFIKASI FUNGSI CREATE SCREENS =====
-
-function createVideoAndPDFScreens() {
-    // Buat loading textures
-    const videoLoadingTexture = createAnimatedLoadingTexture();
-    const pdfLoadingTexture = createPDFLoadingTexture();
-    
-    // Materials
-    const videoLoadingMaterial = new THREE.MeshLambertMaterial({ 
-        map: videoLoadingTexture,
-        transparent: true
-    });
-    const pdfLoadingMaterial = new THREE.MeshLambertMaterial({ 
-        map: pdfLoadingTexture,
-        transparent: true
-    });
-
-    // YouTube Screen dengan loading
-    const ytScreenGeometry = new THREE.PlaneGeometry(4, 2.25);
-    const ytScreen = new THREE.Mesh(ytScreenGeometry, videoLoadingMaterial);
-    ytScreen.position.set(-9.8, 3, 0);
-    ytScreen.rotation.y = Math.PI / 2;
-    ytScreen.userData = { 
-        type: 'youtube', 
-        videoId: 'Mk-oDuOhHSU',
-        loading: true,
-        originalMaterial: null // Akan diisi dengan thumbnail nanti
-    };
-    scene.add(ytScreen);
-    interactables.push(ytScreen);
-
-    // PDF Screen dengan loading
-    
-
-    // Simulasi loading selesai dan ganti ke konten asli
-    setTimeout(() => {
-        loadYouTubeThumbnail(ytScreen);
-    }, 2000); // Loading 2 detik untuk video
-
-    setTimeout(() => {
-        loadPDFPreview(pdfScreen);
-    }, 3000); // Loading 3 detik untuk PDF
-}
-
-// ===== FUNGSI LOADING CONTENT =====
-
-// Load YouTube thumbnail
-function loadYouTubeThumbnail(screenMesh) {
-    const videoId = screenMesh.userData.videoId;
-    const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-    
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(
-        thumbnailUrl,
-        function(texture) {
-            // Success - ganti material dengan thumbnail
-            const thumbnailMaterial = new THREE.MeshLambertMaterial({ map: texture });
-            screenMesh.material = thumbnailMaterial;
-            screenMesh.userData.loading = false;
-            screenMesh.userData.originalMaterial = thumbnailMaterial;
-            
-            // Tambahkan play button overlay
-            addPlayButtonOverlay(screenMesh);
-        },
-        function(progress) {
-            // Loading progress
-            console.log('Loading thumbnail:', (progress.loaded / progress.total * 100) + '%');
-        },
-        function(error) {
-            // Error - tampilkan error texture
-            console.error('Error loading thumbnail:', error);
-            const errorTexture = createErrorTexture('Video tidak ditemukan');
-            screenMesh.material = new THREE.MeshLambertMaterial({ map: errorTexture });
-            screenMesh.userData.loading = false;
-        }
-    );
-}
-
-// Load PDF preview
-function loadPDFPreview(screenMesh) {
-    // Simulasi loading PDF (karena tidak bisa langsung load PDF ke texture)
-    setTimeout(() => {
-        const pdfPreviewTexture = createPDFPreviewTexture();
-        screenMesh.material = new THREE.MeshLambertMaterial({ map: pdfPreviewTexture });
-        screenMesh.userData.loading = false;
-        
-        // Tambahkan PDF icon overlay
-        addPDFIconOverlay(screenMesh);
-    }, 1000);
-}
-
-// ===== HELPER FUNCTIONS =====
-
-// Buat error texture
-function createErrorTexture(errorMessage) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-    
-    // Background merah
-    ctx.fillStyle = '#ff4757';
-    ctx.fillRect(0, 0, canvas.width, canvas.width);
-    
-    // Error icon
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 48px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('⚠️', canvas.width / 2, canvas.height / 2 - 20);
-    
-    // Error message
-    ctx.font = '20px Arial';
-    ctx.fillText(errorMessage, canvas.width / 2, canvas.height / 2 + 40);
-    
-    return new THREE.CanvasTexture(canvas);
-}
-
-// Buat PDF preview texture
-function createPDFPreviewTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-    
-    // Background putih seperti dokumen
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Simulasi konten dokumen
-    ctx.fillStyle = '#333';
-    ctx.font = '16px Arial';
-    ctx.textAlign = 'left';
-    
-    // Header
-    ctx.font = 'bold 24px Arial';
-    ctx.fillText('DOKUMEN PDF', 50, 60);
-    
-    // Lines simulasi text
-    ctx.font = '14px Arial';
-    for (let i = 0; i < 15; i++) {
-        const y = 120 + (i * 25);
-        const width = Math.random() * 300 + 100;
-        ctx.fillRect(50, y, width, 2);
-    }
-    
-    // PDF watermark
-    ctx.fillStyle = 'rgba(102, 126, 234, 0.1)';
-    ctx.font = 'bold 72px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('PDF', canvas.width / 2, canvas.height / 2);
-    
-    return new THREE.CanvasTexture(canvas);
-}
-
-// Tambahkan play button overlay untuk video
-function addPlayButtonOverlay(screenMesh) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 128;
-    canvas.height = 128;
-    const ctx = canvas.getContext('2d');
-    
-    // Play button circle
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    ctx.beginPath();
-    ctx.arc(64, 64, 40, 0, 2 * Math.PI);
-    ctx.fill();
-    
-    // Play triangle
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.moveTo(50, 45);
-    ctx.lineTo(50, 83);
-    ctx.lineTo(78, 64);
-    ctx.closePath();
-    ctx.fill();
-    
-    const overlayTexture = new THREE.CanvasTexture(canvas);
-    const overlayMaterial = new THREE.MeshLambertMaterial({ 
-        map: overlayTexture, 
-        transparent: true 
-    });
-    
-    const overlayGeometry = new THREE.PlaneGeometry(0.5, 0.5);
-    const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
-    overlay.position.copy(screenMesh.position);
-    overlay.position.x -= 0.05; // Sedikit ke depan
-    overlay.rotation.copy(screenMesh.rotation);
-    
-    scene.add(overlay);
-    screenMesh.userData.overlay = overlay;
-}
-
-// Tambahkan PDF icon overlay
-function addPDFIconOverlay(screenMesh) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 128;
-    canvas.height = 128;
-    const ctx = canvas.getContext('2d');
-    
-    // PDF badge
-    ctx.fillStyle = 'rgba(102, 126, 234, 0.9)';
-    ctx.fillRect(20, 20, 88, 30);
-    
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 16px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('PDF', 64, 40);
-    
-    const overlayTexture = new THREE.CanvasTexture(canvas);
-    const overlayMaterial = new THREE.MeshLambertMaterial({ 
-        map: overlayTexture, 
-        transparent: true 
-    });
-    
-    const overlayGeometry = new THREE.PlaneGeometry(0.8, 0.3);
-    const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
-    overlay.position.copy(screenMesh.position);
-    overlay.position.x -= 0.05;
-    overlay.position.y += 1.5; // Di bagian atas
-    overlay.rotation.copy(screenMesh.rotation);
-    
-    scene.add(overlay);
-    screenMesh.userData.overlay = overlay;
-}
-
-// ===== CONTOH PENGGUNAAN UNTUK VIDEO SCREENS LAINNYA =====
-
 function createVideoScreens() {
-    const loadingTexture = createAnimatedLoadingTexture();
-    const loadingMaterial = new THREE.MeshLambertMaterial({ map: loadingTexture });
+    const screenMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
 
-    // Screen di kiri dengan loading
+    // Contoh screen di kiri dan kanan (sebelumnya)
     for (let i = 0; i < 3; i++) {
         const screenGeometry = new THREE.PlaneGeometry(3, 2);
-        const screen = new THREE.Mesh(screenGeometry, loadingMaterial.clone());
+        const screen = new THREE.Mesh(screenGeometry, screenMaterial);
         screen.position.set(-9.8, 2 + (i * 1.5), -6 + (i * 4));
         screen.rotation.y = Math.PI / 2;
         scene.add(screen);
@@ -773,27 +392,14 @@ function createVideoScreens() {
         videoArea.position.copy(screen.position);
         videoArea.position.x = -9.7;
         videoArea.rotation.y = Math.PI / 2;
-        videoArea.userData = { 
-            type: 'video', 
-            name: `Video Pembelajaran ${i + 1}`,
-            videoId: getVideoIdByIndex(i),
-            loading: true,
-            screenMesh: screen // Reference ke screen mesh
-        };
+        videoArea.userData = { type: 'video', name: `Video Pembelajaran ${i + 1}` };
         scene.add(videoArea);
         interactables.push(videoArea);
-        
-        // Load content setelah delay berbeda untuk setiap screen
-        setTimeout(() => {
-            loadVideoThumbnail(screen, getVideoIdByIndex(i));
-            videoArea.userData.loading = false;
-        }, 1000 + (i * 500)); // Staggered loading
     }
 
-    // Screen di kanan dengan loading
     for (let i = 0; i < 3; i++) {
         const screenGeometry = new THREE.PlaneGeometry(3, 2);
-        const screen = new THREE.Mesh(screenGeometry, loadingMaterial.clone());
+        const screen = new THREE.Mesh(screenGeometry, screenMaterial);
         screen.position.set(9.8, 2 + (i * 1.5), -6 + (i * 4));
         screen.rotation.y = -Math.PI / 2;
         scene.add(screen);
@@ -805,41 +411,28 @@ function createVideoScreens() {
         videoArea.position.copy(screen.position);
         videoArea.position.x = 9.7;
         videoArea.rotation.y = -Math.PI / 2;
-        videoArea.userData = { 
-            type: 'video', 
-            name: `Video Pembelajaran ${i + 4}`,
-            videoId: getVideoIdByIndex(i + 3),
-            loading: true,
-            screenMesh: screen
-        };
+        videoArea.userData = { type: 'video', name: `Video Pembelajaran ${i + 4}` };
         scene.add(videoArea);
         interactables.push(videoArea);
-        
-        // Load content setelah delay
-        setTimeout(() => {
-            loadVideoThumbnail(screen, getVideoIdByIndex(i + 3));
-            videoArea.userData.loading = false;
-        }, 2000 + (i * 500)); // Staggered loading
     }
 }
 
-// Load thumbnail untuk video screens biasa
-function loadVideoThumbnail(screenMesh, videoId) {
-    const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+// Fungsi tambahan untuk YouTube thumbnail dan PDF di dinding kiri kelas
+function createVideoAndPDFScreens() {
+    const screenMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+
+    // YouTube thumbnail
+    const ytScreenGeometry = new THREE.PlaneGeometry(4, 2.25);
+    const ytScreen = new THREE.Mesh(ytScreenGeometry, screenMaterial);
+    ytScreen.position.set(-9.8, 3, 0);
+    ytScreen.rotation.y = Math.PI / 2;
+    ytScreen.userData = { type: 'youtube', videoId: 'Mk-oDuOhHSU' };
+    scene.add(ytScreen);
+    interactables.push(ytScreen);
+
+
+
     
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(
-        thumbnailUrl,
-        function(texture) {
-            screenMesh.material = new THREE.MeshLambertMaterial({ map: texture });
-            addPlayButtonOverlay(screenMesh);
-        },
-        undefined,
-        function(error) {
-            const errorTexture = createErrorTexture('Video Error');
-            screenMesh.material = new THREE.MeshLambertMaterial({ map: errorTexture });
-        }
-    );
 }
 function createFurniture() {
     const deskMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513 });
