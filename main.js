@@ -301,8 +301,8 @@ function createBlackboard() {
     interactables.push(crosswordArea);
 
     // Membuat teks 3D untuk label Quiz dan Crossword (tanpa border)
-    createRealText3D("QUIZ", -3, 5, -9.4, 0xFFD700);        // Emas
-    createRealText3D("CROSSWORD", 3, 5, -9.4, 0x00BFFF);    // Biru langit
+    createRealText3D("QUIZ", -3, 5, -9.4, 0xFFC537);        // Emas
+    createRealText3D("CROSSWORD", 3, 5, -9.4, 0xFFC537);    // Biru langit
 }
 
 // Fungsi untuk membuat teks 3D yang realistis dengan TextGeometry
