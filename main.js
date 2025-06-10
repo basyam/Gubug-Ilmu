@@ -39,7 +39,7 @@ const multimediaCrosswordData = {
   clues: {
     across: [
       { number: 1, clue: "Perangkat keras untuk menampilkan gambar dan video pada komputer.", answer: "MONITOR", row: 0, col: 4 },
-      { number: 5, clue: "Komponen komputer yang mengolah data multimedia.", answer: "PROCESSOR", row: 6, col: 0 },
+      { number: 5, clue: "Komponen utama dalam sebuah komputer atau laptop, yang berperan layaknya otak dari sistem dan yang mengolah data multimedia adalah.", answer: "PROCESSOR", row: 6, col: 0 },
       { number: 7, clue: "Teknologi yang membuat pengguna dapat berinteraksi langsung dengan konten multimedia.", answer: "INTERAKTIF", row: 3, col: 2 },
       { number: 6, clue: "Media yang mengandung gerakan dan suara.", answer: "VIDEO", row: 8, col: 3 },
       { number: 2, clue: "Perangkat untuk merekam suara dalam multimedia.", answer: "MIC", row: 5, col: 4 }
