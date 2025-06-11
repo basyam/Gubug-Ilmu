@@ -102,36 +102,6 @@ h1 {
     transform: scale(1.05);
     box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
 }
-
-@media (max-width:560px) {
-    .menu-btn{
-        margin: 0px;
-    }
-    .top-btn{
-        width: 100%;
-        gap: 12px;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 12px;
-    }
-   .menu-overlay {
-    width: 100%;
-    flex-direction: column;
-    display: flex;
-    height: 100%;
-    align-items: center;
-    gap: 0px;
-    justify-content: center;
-    border-radius: 0;
-    border: none;
-}
-    .menu-btn-music {
-        font-size: 16px;
-        text-align: center;
-        width: max-content;
-}
-
-}
     
 
 .controls {
@@ -189,6 +159,9 @@ h1 {
 
 .close-btn {
     position: absolute;
+    display: flex;
+    gap: 6px;
+    flex-direction: row;
     top: 15px;
     right: 20px;
     background: #dc3545;
@@ -385,4 +358,44 @@ h1 {
 }
 
 
+@media (max-width:560px) {
+    .menu-btn{
+        margin: 0px;
+    }
+    .top-btn{
+        width: 100%;
+        gap: 12px;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 12px;
+    }
+   .menu-overlay {
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    gap: 0px;
+    justify-content: center;
+    border-radius: 0;
+    border: none;
+}
+    .menu-btn-music {
+        font-size: 16px;
+        text-align: center;
+        width: max-content;
+}
 
+.close-btn i{
+    font-size: 26px;
+    color: #dc3545;
+}
+.close-btn p{
+    display: none;
+}
+ .close-btn{
+    padding: 10px;
+    background: none;
+}
+
+}

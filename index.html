@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
     <script src="main.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
 </head>
 <body>
     <div id="gameContainer">
@@ -78,7 +79,9 @@
 
             <!-- Quiz Panel -->
             <div id="quizPanel" class="quiz-panel hidden">
-                <button class="close-btn" onclick="closeAllPanels()">✕ Tutup</button>
+                <button class="close-btn" onclick="closeAllPanels()">
+                    <i class="hgi hgi-stroke hgi-cancel-circle"></i><p>Tutup</p>
+                </button>
                 <h2 style="color: #667eea; margin-bottom: 20px;">🧠 Quiz Multimedia</h2>
                 <div id="quizContent">
                     <div class="question">
@@ -98,7 +101,9 @@
 
             <!-- Crossword Panel -->
             <div id="crosswordPanel" class="crossword-panel hidden">
-                <button class="close-btn" onclick="closeAllPanels()">✕ Tutup</button>
+                <button class="close-btn" onclick="closeAllPanels()">
+                    <i class="hgi hgi-stroke hgi-cancel-circle"></i><p>Tutup</p>
+                </button>
                 <h2 style="color: #667eea; margin-bottom: 20px;">🔤 Teka-Teki Silang Multimedia</h2>
                 <div class="crossword-grid" id="crosswordGrid"></div>
                 <div class="clues">
@@ -119,7 +124,9 @@
 
             <!-- Video Panel -->
             <div id="videoPanel" class="video-panel hidden">
-                <button class="close-btn" onclick="closeAllPanels()">✕ Tutup</button>
+                <button class="close-btn" onclick="closeAllPanels()">
+                    <i class="hgi hgi-stroke hgi-cancel-circle"></i><p>Tutup</p>
+                </button>                
                 <h2 style="color: #667eea; margin-bottom: 20px;">🎥 Video Pembelajaran Multimedia</h2>
                 <div class="video-grid">
                     <div class="video-card">
@@ -158,14 +165,18 @@
 
             <!-- YouTube Video Panel -->
             <div id="youtubePanel" class="video-panel hidden">
-                <button class="close-btn" onclick="closeAllPanels()">✕ Tutup</button>
+                <button class="close-btn" onclick="closeAllPanels()">
+                    <i class="hgi hgi-stroke hgi-cancel-circle"></i><p>Tutup</p>
+                </button>
                 <h2 style="color: #667eea;">🎥 Video YouTube</h2>
                 <iframe id="youtubeIframe" width="100%" height="400" frameborder="0" allowfullscreen></iframe>
             </div>
 
             <!-- PDF Panel -->
             <div id="pdfPanel" class="video-panel hidden">
-                <button class="close-btn" onclick="closeAllPanels()">✕ Tutup</button>
+                <button class="close-btn" onclick="closeAllPanels()">
+                    <i class="hgi hgi-stroke hgi-cancel-circle"></i><p>Tutup</p>
+                </button>
                 <h2 style="color: #667eea;">📄 Dokumen PDF</h2>
                 <iframe id="pdfIframe" width="100%" height="600" style="border:none;"></iframe>
             </div>
